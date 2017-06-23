@@ -1,0 +1,33 @@
+{% extends '../base.html' %}
+{% block title %}Test AJAX{% endblock title %}
+{% block content %}
+
+	<header class="header">
+		<h1>DEMO PRUEBAS</h1>
+	</header>
+	<aside class="aside">
+		{% include "avon/menu.html" %}
+	</aside>
+	<main class="main">
+			<h1>{{num}}</h1>
+	</main>
+
+	<div class="modal__cover" id="modal_content">
+		<div class="modal">
+
+		</div>
+	</div>
+
+
+
+
+	<!-- 	<button type="button" class="list-js" data-url='{% url 'avon:ajax-list' %}'>Listar</button>
+	<div class="modal__cover">
+		<div class="modal">
+		</div>
+	</div> -->
+
+
+
+
+{% endblock content %}

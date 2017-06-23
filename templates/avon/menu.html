@@ -1,0 +1,14 @@
+<nav class="menu">
+		<ul>
+			<li class="menu__li"><a class="menu__a" href="{% url 'avon:index' %}">
+				<i class="icon icon-home"></i></a>
+			</li>
+			<li class="menu__li"><a class="menu__a" href="{% url  'avon:detail_customer' %}">
+				<i class="icon icon-address-book"></i></a>
+			</li>
+			<li class="menu__li" ><button class="js-ajax menu__btn" data-url="{% url  'avon:create_customer' %}" ><i class="icon icon-user-plus"></i></button></li>
+			<li class="menu__li"><a class="menu__a" href="{% url  'avon:list_customer' %}">
+				<i class="icon icon-trophy"></i></a>
+			</li>
+		</ul>
+</nav>

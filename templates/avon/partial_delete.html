@@ -1,0 +1,5 @@
+<h1 class="title">Desea borrar {{object}}? </h1>
+	<form method="POST" class="form"> {% csrf_token %}
+		<button type="submit" class="form__submit">Si, eliminar</button>
+		<a href="{% url 'avon:index' %}" class="button button--cancel">Cancelar</a>
+	</form>

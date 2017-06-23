@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}{% endblock title %}</title>
+	{% load static %}
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<link rel="stylesheet" href="{% static 'css/style.css' %}">
+	<link rel="stylesheet" href="{% static 'css/icon.css' %}">
+</head>
+<body class="grid">
+	
+	{% block content %}
+		
+	{% endblock content %}
+	<script src="{% static 'js/jquery.js' %}"></script>
+	<script src="{% static 'js/main.js' %}"></script>
+</body>
+</html>

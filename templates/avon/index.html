@@ -1,0 +1,64 @@
+{% extends '../base.html' %}
+{% block title %}Home{% endblock title %}
+
+
+{% block content %}
+	<header class="header">
+		<h1>AVON</h1>
+	</header>
+	<aside class="aside">
+		{% include 'avon/menu.html' %}
+	</aside>
+
+
+	<main class="main" id="main">
+			{% load static %}
+			{% if object_list %}
+				<section class="container">
+					<button class="js-ajax button" type="button" data-url="{% url 'avon:create'%}"><i class="icon-plus"></i>Agregar una campaña</button>
+
+					<table class="table" id="table">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Num. de Campaña</th>
+								<th>Fecha de salida</th>
+								<th>Fecha de llegada</th>
+								<th>---</th>
+							</tr>
+						</thead>
+						<tbody id="list">
+							{% include "avon/partial_list.html" %}
+						</tbody>
+					</table>
+				</section>
+			{% else %}
+				<section class="container">
+					<button class="js-ajax button button--add" type="button" data-url="{% url 'avon:create'%}"><i class="icon-plus"></i>Agregar una campaña</button>
+					<table class="table" id="table">
+						<thead>
+							<tr>
+								<th>Nombre</th>
+								<th>Num. de Campaña</th>
+								<th>Fecha de salida</th>
+								<th>Fecha de llegada</th>
+								<th>---</th>
+							</tr>
+						</thead>
+						<tbody id="list">
+							{% include "avon/partial_list.html" %}
+						</tbody>
+					</table>
+
+				</section>
+			{% endif %}
+
+	<div class="modal__cover" id="modal_content">
+		<div class="modal">
+
+		</div>
+	</div>
+	</main>
+	<script src="http://localhost:35729/livereload.js"></script>
+
+{% endblock content %}

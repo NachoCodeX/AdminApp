@@ -1,0 +1,22 @@
+<form method='POST' action="{% url 'avon:create_article' %}" class="js-campaing-create-form">{% csrf_token %}
+
+
+	<div class="modal-header">
+		<h2>Crear un Articulo</h2>
+		<button type="button" class="button-x" id="button_x">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+			{{form.as_p}}
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="button form__submit--normal ">Close</button>
+		<button type="submit" class="button form__submit margin-left">Crear articulo</button>
+
+	</div>
+
+
+</form>

@@ -1,0 +1,35 @@
+{% extends '../base.html' %}
+{% block title %}Lista de clientes{% endblock title %}
+
+
+{% block content %}
+  <header class="header">
+      <h1>Lista de clientes</h1>
+  </header>
+  <aside class="aside">
+    {% include 'avon/menu.html' %}
+  </aside>
+
+  <main class="main">
+    <section class="container">
+        <table class="table">
+            <thead>
+              <th>Nombre</th>
+              <th>Deuda</th>
+              <th>---</th>
+            </thead>
+            <tbody>
+              {% for x in object_list  %}
+                  <tr>
+                    <td>{{x}}</td>
+                    <td>{{x.debt}}</td>
+                    <td><button type="button" class="table__button"> <i class="icon-bin"></i> Eliminar</button>
+</td>
+                  </tr>
+              {% endfor %}
+
+            </tbody>
+        </table>
+    </section>
+  </main>
+{% endblock content %}

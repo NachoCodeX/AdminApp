@@ -1,0 +1,17 @@
+{% for x in object_list  %}
+	<tr>
+		<td>{{x.name}}</td>
+		<td>{{x.campaing_num}}</td>
+		<td>{{x.deperture_date}}</td>
+		<td>{{x.arrival_date}}</td>
+		<td>
+			<a href="{% url  'avon:detail' x.pk %}" class="table__button table__button--a"><i class="icon-folder-plus"></i>ARTICULOS</a>
+			<button type="button" class="js-update-campaing table__button" data-url="{% url  "avon:update" x.pk %}" > <i class="icon-edit"></i>Editar</button>
+			<button type="button" class="js-delete-campaing table__button" data-url="{% url "avon:delete" x.pk %}"> <i class="icon-bin"></i> Eliminar</button>
+		</td>
+	</tr>
+{% empty %}
+	<tr>
+		<td colspan="5">NO HAY NINGUNA CAMPAÑA</td>
+	</tr>
+{% endfor %}

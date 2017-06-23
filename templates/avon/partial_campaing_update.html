@@ -1,0 +1,21 @@
+<form method="POST" action="{% url 'avon:update' form.instance.pk %}" class="js-campaing-update-form">{% csrf_token %}
+
+
+	<div class="modal-header">
+		<h4>Editar campaña</h4>
+		<button type="button" class="button-x" id="button_x">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	</div>
+
+	<div class="modal-body">
+			{{form.as_p}}
+	</div>
+
+	<div class="modal-footer">
+		<button type="button" class="button form__submit--normal">Close</button>
+		<button type="submit" class="button form__submit margin-left">Guardar campaña</button>
+	</div>
+
+
+</form>

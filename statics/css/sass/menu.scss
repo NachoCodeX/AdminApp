@@ -1,0 +1,46 @@
+
+
+.menu{
+	height: calc(4 * 6em);
+	margin-top:3em;
+}
+
+.menu__btn{
+	display: block;
+	width: 100%;
+	height: 100%;
+	border: none;
+	background: transparent;
+}
+
+.menu__li{
+	height: 6em;
+	border-bottom: 1px solid rgba(#fff,0.1);
+	list-style:none;
+	transition: all ease 0.5s;
+
+	&:hover{
+		background:$p_color;
+		.icon{
+			color: #000;
+		}
+
+	}
+}
+
+.menu__a{
+	transition: all ease 0.4s;
+	color: #fff;
+	text-decoration:none;
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.icon{
+	transition: all ease 0.8s;
+	color:#ccc;
+	font-size: 2em;
+}

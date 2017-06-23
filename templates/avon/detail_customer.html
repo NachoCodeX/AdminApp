@@ -1,0 +1,41 @@
+{% extends '../base.html' %}
+
+{% block title %}AVON{% endblock title %}
+
+{% block content %}
+  <header class="header">
+    <h1>DETALLE DE CLIENTES</h1>
+    <!--<form  action="" method="GET" class="form--search">
+
+      <input id="search" placeholder="Busque un cliente" type="search" name="search" value="" class="search__input">
+      <button class="search__submit" type="submit" ><i class="icon-search"></i></button>
+    </form>-->
+  </header>
+
+  <aside class="aside">
+    {% include 'avon/menu.html' %}
+  </aside>
+
+  <main class="main">
+    <section class="container">
+      <div class="container__flex">
+        <select class="select">
+          {% include 'avon/partial_options.html' %}
+        </select>
+        <div class="btn">
+        </div>
+        <!--<button type="button" id="button_debt" class="js-ajax button" data-url="{% url  'avon:update_customer' 1 %}">EDITAR CUENTA</button>-->
+
+      </div>
+      <div id='list'>
+          
+      </div>
+      <div class="modal__cover" id="modal_content">
+        <div class="modal">
+
+        </div>
+      </div>
+
+    </section>
+  </main>
+{% endblock content %}

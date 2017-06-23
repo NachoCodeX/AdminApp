@@ -1,0 +1,42 @@
+{% extends '../base.html' %}
+{% block title %}Detail{% endblock title %}
+
+
+{% block content %}
+  <header class="header">
+      <h1>Detalle</h1>
+  </header>
+
+  <aside class="aside">
+    {% include 'avon/menu.html' %}
+  </aside>
+
+  <main class="main">
+      <section  class="container">
+        <button class="js-ajax button" type="button" data-url="{% url  'avon:create_article' %}" value="{{pk}}" ><i class="icon-plus"></i>AGREGAR ARTICULO</button>
+        <table class="table" id="table">
+            <thead>
+                <tr>
+                  <th>ARTICULO</th>
+                  <th>PRECIO</th>
+                  <th>CATEGORÍA</th>
+                  <th>COMPRADOR</th>
+                  <th>----</th>
+                </tr>
+            </thead>
+            <tbody id="list">
+                {% include 'avon/partial_article_list.html' %}
+            </tbody>
+
+        </table>
+      </section>
+
+      <div class="modal__cover" id="modal_content">
+        <div class="modal">
+
+        </div>
+      </div>
+  </main>
+
+
+{% endblock content %}
