@@ -1,5 +1,5 @@
 from django.shortcuts import render,get_object_or_404
-from django.views.generic import TemplateView,ListView,DeleteView,View,ListView
+from django.views.generic import TemplateView,ListView,DeleteView,ListView
 from .models import *
 from django.urls import reverse_lazy
 from django.http import JsonResponse
@@ -13,7 +13,7 @@ class IndexView(ListView):
 	template_name='avon/index.html'
 
 	def get_queryset(self):
-		return Campaing.objects.all()
+		return Campaing.objects.all().order_by('-campaing_num')
 
 
 class ListCustomers(ListView):
@@ -22,7 +22,7 @@ class ListCustomers(ListView):
 	def get_queryset(self):
 		return Customer.objects.all().order_by('-debt')
 
-class DetailCustomer(View):
+class DetailCustomer(TemplateView):
 	template_name='avon/detail_customer.html'
 
 	def get(self,request):
@@ -40,7 +40,6 @@ class DetailCustomerResult(TemplateView):
 		total=0
 		for a in articles:
 			total+=a.price
-		print('TOTAL: ${}<<<<<<<<<'.format(total))
 		context={
 			'object_list':articles,
 			'debt':customer.debt,
@@ -70,7 +69,7 @@ def CustomerUpdate(request,id_customer):
 			'total':total,
 			'is_owed':(True if customer.debt > 0 else False),
 		}
-		data['html_campaings_list']=render_to_string('avon/partial_html_result.html',context)
+		data['html_list']=render_to_string('avon/partial_html_result.html',context)
 	else:
 		form=UpdateCustomer(instance=instance)
 		data['form_is_valid']=False
@@ -79,21 +78,21 @@ def CustomerUpdate(request,id_customer):
 	return JsonResponse(data)
 
 
-def save_form(request,form,template_name,template_list,Object):
+def save_form(request,form,template_name,template_list,Object,folder):
 	data=dict()
 	if request.method == 'POST':
 		if form.is_valid():
 			form.save()
 			data['form_is_valid']=True
 			campaings=Object.objects.all()
-			data['html_campaings_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list':campaings})
+			data['html_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list':campaings})
 		else:
 			data['form_is_valid']=False
 	context={'form':form}
-	data['html_form']=render_to_string('avon/{}.html'.format(template_name),context,request=request)
+	data['html_form']=render_to_string('avon/{1}/{0}.html'.format(template_name,folder),context,request=request)
 	return JsonResponse(data)
 
-def save_article_form(request,form,template_name,template_list,Object):
+def save_article_form(request,form,template_name,template_list,Object,folder):
 	data=dict()
 	if request.method == 'POST':
 		if form.is_valid():
@@ -104,15 +103,14 @@ def save_article_form(request,form,template_name,template_list,Object):
 			##SAVE MANY TO MANY
 			form.save_m2m()
 			customers=list(str(value) for value in article.buyer.all())
-			print('BUYER:::::::'+str(customers))
 			addDebt(customers,article.price)
 			data['form_is_valid']=True
 			object_list=Object.objects.filter(campaing=campaing)
-			data['html_campaings_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list':object_list})
+			data['html_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list':object_list})
 		else:
 			data['form_is_valid']=False
 	context={'form':form}
-	data['html_form']=render_to_string('avon/{}.html'.format(template_name),context,request=request)
+	data['html_form']=render_to_string('avon/{1}/{0}.html'.format(template_name,folder),context,request=request)
 	return JsonResponse(data)
 
 
@@ -128,10 +126,10 @@ def delete_object(request,obj,Object,template_list,template_delete,op):
 		obj.delete()
 		data['form_is_valid']=True
 		objects=Object.objects.all() if op == 1 else Object.objects.filter(campaing=Campaing.objects.get(pk=request.session['id']))
-		data['html_campaings_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list': objects})
+		data['html_list']=render_to_string('avon/{}.html'.format(template_list),{'object_list': objects})
 	else:
 		context={'object':obj}
-		data['html_form']=render_to_string('avon/{}.html'.format(template_delete),context,request=request)
+		data['html_form']=render_to_string('avon/delete/{}.html'.format(template_delete),context,request=request)
 	return JsonResponse(data)
 
 def campaing_delete(request,pk):
@@ -145,7 +143,7 @@ def campaing_create(request):
 		form=CampaingForm(request.POST)
 	else:
 		form=CampaingForm()
-	return save_form(request,form,'partial_campaing_create','partial_list',Campaing)
+	return save_form(request,form,'partial_campaing_create','partial_list',Campaing,'create')
 
 
 def campaing_update(request,pk):
@@ -154,7 +152,7 @@ def campaing_update(request,pk):
 		form=CampaingUpdateForm(request.POST,instance=campaing)
 	else:
 		form=CampaingUpdateForm(instance=campaing)
-	return save_form(request,form,'partial_campaing_update','partial_list',Campaing)
+	return save_form(request,form,'partial_campaing_update','partial_list',Campaing,'update')
 
 #AJAX TEST
 def ajax_list(request):
@@ -165,7 +163,7 @@ def ajax_list(request):
 def campaing_detail(request,pk):
 	campaing=get_object_or_404(Campaing,pk=pk)
 	request.session['id']=pk
-	articles=Article.objects.filter(campaing=campaing)
+	articles=Article.objects.filter(campaing=campaing).order_by('-price')
 	return render(request,'avon/campaing_detail.html',{"object_list":articles})
 
 def article_create(request):
@@ -173,7 +171,7 @@ def article_create(request):
 		form=ArticleForm(request.POST)
 	else:
 		form=ArticleForm()
-	return save_article_form(request,form,'partial_article_create','partial_article_list',Article)
+	return save_article_form(request,form,'partial_article_create','partial_article_list',Article,'create')
 
 def article_delete(request,id_art):
 	article=get_object_or_404(Article,pk=id_art)
@@ -187,11 +185,10 @@ def create_customer(request):
 		form.save()
 		data['form_is_valid']=True
 		context={'object_list':Customer.objects.all()}
-		print(context)
 		data['options']=render_to_string('avon/partial_options.html',context)
 
 	else:
 		data['form_is_valid']=False
 		form=CustomerForm()
-	data['html_form']=render_to_string('avon/partial_customer_form_.html',{'form':form},request=request)
+	data['html_form']=render_to_string('avon/create/partial_customer_form_.html',{'form':form},request=request)
 	return JsonResponse(data)

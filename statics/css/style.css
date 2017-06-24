@@ -97,6 +97,8 @@
   background: rgba(221, 221, 221, 0.8); }
   .table__button:active {
     transform: scale(0.9); }
+  .table__button:hover {
+    background: #d0d0d0; }
   .table__button i {
     margin-right: 5px; }
 
@@ -155,6 +157,8 @@
   text-transform: uppercase; }
   .button:active {
     transform: scale(0.9); }
+  .button:hover {
+    background: #d0d0d0; }
   .button i {
     margin-right: 10px; }
 

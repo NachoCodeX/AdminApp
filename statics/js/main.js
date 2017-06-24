@@ -10,12 +10,10 @@ $(document).ready(()=>{
 			success:(data)=>{
 				console.log(data);
 				if(data.form_is_valid){
-					console.log('CREADO');
 					$('.modal').fadeOut('1000');
 					$('.modal__cover').fadeOut('1000');
-					$('#list').html(data.html_campaings_list);
+					$('#list').html(data.html_list);
 					if(data.options){
-						console.log("SOIIIIOI");
 						$('.select').html(data.options);
 					}
 				}else{
@@ -85,9 +83,6 @@ $(document).ready(()=>{
 			success:(data)=>{
 				$('#list').html(data.html_result);
 				$('.btn').html('<button type="button" id="button_debt" class="button" data-url="/update/customer/'+id_customer+"\""+'>EDITAR CUENTA</button>');
-				// let btn=$('#button_debt');
-				// btn.attr({'data-url':'/update/customer/'+id_customer})
-				// console.log(btn.attr('data-url'));
 			}
 		});
 	});
